@@ -13,9 +13,7 @@ aSaxpy:
 	push rbp
 	mov rbp, rsp
 	add rbp, 16				; Push rbp (+8) and Return Address of Call (+8)
-	movss xmm0, [rbp+32]	; 5th Parameter, +32 because of Shadow RAM
-
-	inc rcx
+	movss xmm0, [rbp+32]		; 5th Parameter, +32 because of Shadow RAM
 
 	l1:
 		movss xmm1, [r8]	; Current X
@@ -32,4 +30,5 @@ aSaxpy:
 
 		loop l1
 
+	pop rbp
 	ret
