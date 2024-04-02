@@ -55,14 +55,14 @@ The following images are the test results of the Release version of the program,
 
 # Comparing Versions
 ### Debug Mode Summary
-|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) |  Fastest | Time difference (seconds)|
+|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) |  Fastest | Time difference (in seconds)|
 |:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:--------:|:---------------:|
 |    2^20     |                 0.003633                  |                      0.001567                     | Assembly |     0.002066    |
 |    2^24     |                 0.039167                  |                      0.013567                     | Assembly |     0.025600      |
 |    2^30     |                 2.534233                  |                      0.846000                     | Assembly |     1.688233    |
 
 ### Release Mode Summary
-|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) | Fastest | Time difference (seconds) |
+|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) | Fastest | Time difference (in seconds) |
 |:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:-------:|:-------------------------:|
 |    2^20     |                  0.001133                 |                      0.001200                     |    C    |           0.000067      |
 |    2^24     |                  0.014400                 |                      0.015333                     |    C    |           0.000933      |
