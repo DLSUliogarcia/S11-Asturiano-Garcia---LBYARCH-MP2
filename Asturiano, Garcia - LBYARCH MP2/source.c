@@ -66,8 +66,8 @@ double getAveTime(int n, double* arr) {
 	return sum / n;
 }
 
-void run(int arrSize, double *timesA, double *timesC, int index) {
-	printf("Generating arrays of size %d...\n\n", arrSize);
+void run(int arrSize, double *aTime, double *cTime) {
+	printf("Generating arrays of size %d...\n", arrSize);
 
 	//Declare Variables
 	float* x = (float*)malloc(arrSize * sizeof(float));
@@ -96,11 +96,11 @@ void run(int arrSize, double *timesA, double *timesC, int index) {
 	timeA = ((double)(end_timeA - start_timeA)) / CLOCKS_PER_SEC;
 
 	//Store Times
-	timesC[index] = timeC;
-	timesA[index] = timeA;
+	*cTime = (*cTime) + timeC;
+	*aTime = (*aTime) + timeA;
 
 	//Print Results
-	printf("Test #%d: A = %f \n", index, aVal);
+	printf("A =  %f \n", aVal);
 	checkEqual(arrSize, x, y, cz, az);
 
 	printf("\n\nTime Results:\n");
@@ -122,39 +122,25 @@ int main() {
 	srand(time(0));
 
 	//Time Arrays
-	double* cSaxpyTimes = (double*)malloc(30 * sizeof(double));
-	double* aSaxpyTimes = (double*)malloc(30 * sizeof(double));
-
-	//Initialize Arrays
-	initDoubleArray(30, cSaxpyTimes);
-	initDoubleArray(30, aSaxpyTimes);
+	double cSaxpyTimes = 0;
+	double aSaxpyTimes = 0;
 
 	//Loop: 2^20
-	int i = 0, j=0;
-	for (i = 0; i < 30; i++) {
-		run(E20, aSaxpyTimes, cSaxpyTimes, i);
+	int i = 0, j=0, n = 30;
+	for (i = 0; i < n; i++) {
+		printf("Test #%d\n", i+1);
+		run(E20, &aSaxpyTimes, &cSaxpyTimes);
 	}
-	double cAveTime = getAveTime(30, cSaxpyTimes);
-	double aAveTime = getAveTime(30, aSaxpyTimes);
+	double cAveTime = cSaxpyTimes / n;
+	double aAveTime = aSaxpyTimes / n;
 
 	//Print Results
-	printf("Time Results (Seconds):\n");
-	printf("+-------------------+---------------+\n");
-	printf("| C                 |    Assembly   |\n");
-	printf("+-------------------+---------------+\n");
-	for (int j = 0; j < 30; j++) {
-		printf("| %-14.8lf    | %-14.8lf|\n", cSaxpyTimes[j], aSaxpyTimes[j]);
-	}
 	printf("+-------------------+---------------+\n");
 	printf("|  Average Time Results (Seconds)   |\n");
 	printf("+-------------------+---------------+\n");
 	printf("| C                 | %-14.8lf|\n", cAveTime);
 	printf("| Assembly          | %-14.8lf|\n", aAveTime);
 	printf("+-------------------+---------------+\n\n\n\n");
-
-	//Clear Arrays
-	free(cSaxpyTimes);
-	free(aSaxpyTimes);
 
 	return 0;
 }
