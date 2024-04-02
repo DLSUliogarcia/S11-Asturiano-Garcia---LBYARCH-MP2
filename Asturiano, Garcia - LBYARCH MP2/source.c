@@ -10,6 +10,7 @@
 #define E27 134217728
 #define E28 268435456
 #define E29 536870912
+#define E30 1073741824
 
 double cTime = 0;
 double aTime = 0;
@@ -109,7 +110,7 @@ int main() {
 	srand(time(0));
 
 	//Define Arrays
-	long unsigned int arrSize = E29*2;
+	long unsigned int arrSize = E20;
 	printf("Generating arrays of size %d...\n", arrSize);
 	x = (float*)malloc(arrSize * sizeof(float));
 	y = (float*)malloc(arrSize * sizeof(float));
