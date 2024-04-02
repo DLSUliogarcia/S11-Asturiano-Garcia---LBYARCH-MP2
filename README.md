@@ -57,17 +57,18 @@ The following images are the test results of the Release version of the program,
 ### Debug Mode Summary
 |             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) |  Fastest | Time difference (in seconds)|
 |:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:--------:|:---------------:|
-|    2^20     |                 0.003633                  |                      0.001567                     | Assembly |     0.002066    |
-|    2^24     |                 0.039167                  |                      0.013567                     | Assembly |     0.025600      |
-|    2^30     |                 2.534233                  |                      0.846000                     | Assembly |     1.688233    |
+|    2<sup>20</sup>     |                 0.003633                  |                      0.001567                     | Assembly |     0.002066    |
+|    2<sup>24</sup>   |                 0.039167                  |                      0.013567                     | Assembly |     0.025600      |
+|    2<sup>30</sup>  |                 2.534233                  |                      0.846000                     | Assembly |     1.688233    |
 
 ### Release Mode Summary
 |             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) | Fastest | Time difference (in seconds) |
 |:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:-------:|:-------------------------:|
-|    2^20     |                  0.001133                 |                      0.001200                     |    C    |           0.000067      |
-|    2^24     |                  0.014400                 |                      0.015333                     |    C    |           0.000933      |
-|    2^30     |                  0.724233                 |                      0.839367                     |C        |           0.115134        |
+|    2<sup>20</sup>    |                  0.001133                 |                      0.001200                     |    C    |           0.000067      |
+|   2<sup>24</sup>   |                  0.014400                 |                      0.015333                     |    C    |           0.000933      |
+|    2<sup>30</sup>    |                  0.724233                 |                      0.839367                     |C        |           0.115134        |
 
-Across all tests, even vector sizes as large as 1 Billion (approximately 2^30) can be accomplished in a relatively short amount of time by either the C or assembly version of the SAXPY function. The execution times for all tests of the Release version were significantly faster than those of the Debug version. However, it is notable that in the Debug version, the assembly SAXPY function is significantly faster than the C SAXPY function (even more noticeable the larger the vector sizes become), whereas in the Release version, the C SAXPY function is slightly faster than the assembly SAXPY function.
+Across all tests, even vector sizes as large as 1 billion (approximately 2^30) can be processed swiftly by either the C or assembly version of the SAXPY function. Notably, in debug mode, assembly outperforms C in terms of speed, while in release mode, the situation is reversed. Despite these differences, the execution times for the assembly implementation remain consistently stable across both modes. However, the C implementation experiences a substantial performance boost in release mode, demonstrating a significant 70% increase in speed compared to debug mode. This is because, by default, [optimization is turned off in the Debug mode of a C/C++ program and turned on in the Release mode]([https://example.com](https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-debug-optimized-code?view=vs-2022)).
+
 
 
