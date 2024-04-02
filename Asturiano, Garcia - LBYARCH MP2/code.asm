@@ -18,7 +18,7 @@ aSaxpy:
 	;r11d stores n
 	
 	;init loop counter r12d
-	mov r12d, 0
+	mov r12, 0
 	l1:
 
 		movss xmm1, [r8]

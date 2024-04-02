@@ -20,13 +20,13 @@ float* cz;
 float* az;
 
 float randFloat() {
-	return ((float)(rand() - rand())) / ((float)(rand() + rand()));
+	return (float)(10.0 - (-10.0)) * ((float)rand() / RAND_MAX) - (float)10.0;
 }
 
 void randFloats(int n, float* arr) {
 	int i;
 	for (i = 0; i < n; i++) {
-		arr[i] = ((float)(rand() * rand())) / ((float)(rand() + rand()));
+		arr[i] = (float)(99999.999 - (-99999.999)) * ((float)rand()/ RAND_MAX) - (float)99999.999;
 	}
 }
 
@@ -56,14 +56,18 @@ void cSaxpy(long unsigned int n, float a, float* X, float* Y, float* Z) {
 void checkEqual(long unsigned int n) {
 	long unsigned int i;
 	long unsigned int ctr = 0;
+
 	printf("|-------X Vector--------|--------Y Vector-------|----C SAXPY Results----|----ASM SAXPY Results----|\n");
 	printf("|-----------------------|-----------------------|-----------------------|-------------------------|\n");
 	for (i = 0; i < n; i++) {
-		if (cz[i] != az[i]) ctr++;
 		if (i < 10) printf("| \t%f\t|\t%f\t|\t%f\t|\t%f\t  |\n", x[i], y[i], cz[i], az[i]);
+		if (cz[i] != az[i]) {
+			printf("| \t%.6f\t|\t%.6f\t|\t%.6f\t|\t%.6f\t  |-----> !MISMATCH!\n", x[i], y[i], cz[i], az[i]);
+			ctr++;
+		}
 	}
 	printf("---------------------------------------------------------------------------------------------------\n");
-	printf("Total Mismatch: %d", ctr);
+	printf("Total Mismatch: %d\n", ctr);
 }
 
 void run(int arrSize, float aVal) {
@@ -95,8 +99,8 @@ void run(int arrSize, float aVal) {
 	printf("+-------------------+---------------+\n");
 	printf("| Language          | Time (seconds)|\n");
 	printf("+-------------------+---------------+\n");
-	printf("| C                 | %-14.8lf|\n", timeC);
-	printf("| Assembly          | %-14.8lf|\n", timeA);
+	printf("| C                 | %-14.6lf|\n", timeC);
+	printf("| Assembly          | %-14.6lf|\n", timeA);
 	printf("+-------------------+---------------+\n\n\n\n");
 }
 
@@ -105,7 +109,7 @@ int main() {
 	srand(time(0));
 
 	//Define Arrays
-	long unsigned int arrSize = E29;
+	long unsigned int arrSize = E29*2;
 	printf("Generating arrays of size %d...\n", arrSize);
 	x = (float*)malloc(arrSize * sizeof(float));
 	y = (float*)malloc(arrSize * sizeof(float));
@@ -130,8 +134,8 @@ int main() {
 	printf("+-------------------+---------------+\n");
 	printf("|  Average Time Results (Seconds)   |\n");
 	printf("+-------------------+---------------+\n");
-	printf("| C                 | %-14.8lf|\n", cAveTime);
-	printf("| Assembly          | %-14.8lf|\n", aAveTime);
+	printf("| C                 | %-14.6lf|\n", cAveTime);
+	printf("| Assembly          | %-14.6lf|\n", aAveTime);
 	printf("+-------------------+---------------+\n\n\n\n");
 
 	//Clear Arrays
