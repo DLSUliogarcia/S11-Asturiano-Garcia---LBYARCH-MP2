@@ -2,7 +2,7 @@ section .data
 
 section .text
 	bits 64
-	default rel
+	Default rel
 	global aSaxpy
 
 aSaxpy:
@@ -28,7 +28,9 @@ aSaxpy:
 		add r9, 4
 		add rdx, 4
 
-		loop l1
+		; Repeat Until RCX = 0
+		dec ecx
+		jne l1
 
 	pop rbp
 	ret
