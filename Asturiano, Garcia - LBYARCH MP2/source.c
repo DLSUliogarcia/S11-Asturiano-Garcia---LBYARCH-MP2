@@ -96,13 +96,13 @@ void run(int arrSize, float aVal) {
 	printf("A =  %f \n", aVal);
 	checkEqual(arrSize);
 
-	printf("\n\nTime Results:\n");
+	printf("\nTime Results:\n");
 	printf("+-------------------+---------------+\n");
 	printf("| Language          | Time (seconds)|\n");
 	printf("+-------------------+---------------+\n");
 	printf("| C                 | %-14.6lf|\n", timeC);
 	printf("| Assembly          | %-14.6lf|\n", timeA);
-	printf("+-------------------+---------------+\n\n\n\n");
+	printf("+-------------------+---------------+\n\n");
 }
 
 int main() {
@@ -110,7 +110,7 @@ int main() {
 	srand(time(0));
 
 	//Define Arrays
-	long unsigned int arrSize = E20;
+	long unsigned int arrSize = E30;
 	printf("Generating arrays of size %d...\n", arrSize);
 	x = (float*)malloc(arrSize * sizeof(float));
 	y = (float*)malloc(arrSize * sizeof(float));
@@ -132,6 +132,7 @@ int main() {
 	double aAveTime = aTime / n;
 
 	//Print Results
+	printf("Vector Size (n) = %d\n", arrSize);
 	printf("+-------------------+---------------+\n");
 	printf("|  Average Time Results (Seconds)   |\n");
 	printf("+-------------------+---------------+\n");
