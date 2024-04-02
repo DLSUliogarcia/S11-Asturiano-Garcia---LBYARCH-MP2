@@ -54,6 +54,20 @@ The following images are the test results of the Release version of the program,
 ![image](https://github.com/DLSUliogarcia/S11-Asturiano-Garcia---LBYARCH-MP2/assets/129931296/58872518-c4ef-4789-80ce-b3f62e0a0e40)
 
 # Comparing Versions
+### Debug Mode Summary
+|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) |  Fastest | Time difference (seconds)|
+|:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:--------:|:---------------:|
+|    2^20     |                 0.003633                  |                      0.001567                     | Assembly |     0.002066    |
+|    2^24     |                 0.039167                  |                      0.013567                     | Assembly |     0.025600      |
+|    2^30     |                 2.534233                  |                      0.846000                     | Assembly |     1.688233    |
+
+### Release Mode Summary
+|             | Average Execution Time for C (in seconds) | Average Execution Time for Assembly (in seconds) | Fastest | Time difference (seconds) |
+|:-----------:|:-----------------------------------------:|:-------------------------------------------------:|:-------:|:-------------------------:|
+|    2^20     |                  0.001133                 |                      0.001200                     |    C    |           0.000067      |
+|    2^24     |                  0.014400                 |                      0.015333                     |    C    |           0.000933      |
+|    2^30     |                  0.724233                 |                      0.839367                     |C        |           0.115134        |
+
 Across all tests, even vector sizes as large as 1 Billion (approximately 2^30) can be accomplished in a relatively short amount of time by either the C or assembly version of the SAXPY function. The execution times for all tests of the Release version were significantly faster than those of the Debug version. However, it is notable that in the Debug version, the assembly SAXPY function is significantly faster than the C SAXPY function (even more noticeable the larger the vector sizes become), whereas in the Release version, the C SAXPY function is slightly faster than the assembly SAXPY function.
 
 
