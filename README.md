@@ -68,7 +68,8 @@ The following images are the test results of the Release version of the program,
 |   2<sup>24</sup>   |                  0.014400                 |                      0.015333                     |    C    |           0.000933      |
 |    2<sup>30</sup>    |                  0.724233                 |                      0.839367                     |C        |           0.115134        |
 
-Across all tests, even vector sizes as large as 1 billion (approximately 2^30) can be processed swiftly by either the C or assembly version of the SAXPY function. Notably, in debug mode, assembly outperforms C in terms of speed, while in release mode, the situation is reversed. Despite these differences, the execution times for the assembly implementation remain consistently stable across both modes. However, the C implementation experiences a substantial performance boost in release mode, demonstrating a significant 70% increase in speed compared to debug mode. This is because, by default, [optimization is turned off in the Debug mode of a C/C++ program and turned on in the Release mode](https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-debug-optimized-code?view=vs-2022).
+Across all tests, even vector sizes as large as 1 billion (approximately 2^30) can be processed swiftly by either the C or assembly version of the SAXPY function. 
 
+Notably, in debug mode, assembly outperforms C in terms of speed, while in release mode, the situation is reversed. Despite these differences, the execution times for the assembly implementation remain consistently stable across both modes. However, the C implementation experiences a substantial performance boost in release mode, demonstrating a significant 70% increase in speed compared to debug mode. 
 
-
+This is because, by default, [optimization is turned off in the Debug mode of a C/C++ program and turned on in the Release mode](https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-debug-optimized-code?view=vs-2022).
