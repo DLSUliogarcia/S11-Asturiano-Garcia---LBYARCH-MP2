@@ -7,7 +7,9 @@
 #define E22 4194304
 #define E23 8388608
 #define E24 16777216
+#define E27 134217728
 #define E28 268435456
+#define E29 536870912
 #define E30 1073741824
 
 double cTime = 0;
@@ -36,21 +38,21 @@ void initArray(int n, float* arr) {
 	}
 }
 
-void initDoubleArray(int n,double* arr) {
+void initDoubleArray(int n, double* arr) {
 	int i;
 	for (i = 0; i < n; i++) {
 		arr[i] = 0;
 	}
 }
 
-void cSaxpy(int n, float a, float* X, float* Y, float* Z) {
-	int i;
+extern void aSaxpy(float a, float* Z, float* X, float* Y, int n);
+
+void cSaxpy(long unsigned int n, float a, float* X, float* Y, float* Z) {
+	long unsigned int i;
 	for (i = 0; i < n; i++) {
 		Z[i] = a * X[i] + Y[i];
 	}
 }
-
-extern void aSaxpy(float a, float* Z, float* X, float* Y, int n);
 
 void checkEqual(long unsigned int n) {
 	long unsigned int i;
@@ -65,22 +67,10 @@ void checkEqual(long unsigned int n) {
 	printf("Total Mismatch: %d", ctr);
 }
 
-void run(int arrSize) {
-	printf("Generating arrays of size %d...\n", arrSize);
-
-	//Define Arrays
-	x = (float*)malloc(arrSize * sizeof(float));
-	y = (float*)malloc(arrSize * sizeof(float));
-	cz = (float*)malloc(arrSize * sizeof(float));
-	az = (float*)malloc(arrSize * sizeof(float));
-	float aVal = randFloat();
-
+void run(int arrSize, float aVal) {
+	//Setup Clock
 	clock_t start_timeC, start_timeA, end_timeC, end_timeA;
 	double timeC, timeA;
-
-	//Generate Values
-	randFloats(arrSize, x);
-	randFloats(arrSize, y);
 
 	//Get SAXPY
 	start_timeC = clock();
@@ -109,26 +99,30 @@ void run(int arrSize) {
 	printf("| C                 | %-14.8lf|\n", timeC);
 	printf("| Assembly          | %-14.8lf|\n", timeA);
 	printf("+-------------------+---------------+\n\n\n\n");
-
-	free(x);
-	free(y);
-	free(cz);
-	free(az);
 }
 
 int main() {
 	// Seed Rand
 	srand(time(0));
 
-	//Time Arrays
-	//double aSaxpyTimes = 0;
-	//double cSaxpyTimes = 0;
+	//Define Arrays
+	long unsigned int arrSize = E29;
+	printf("Generating arrays of size %d...\n", arrSize);
+	x = (float*)malloc(arrSize * sizeof(float));
+	y = (float*)malloc(arrSize * sizeof(float));
+	cz = (float*)malloc(arrSize * sizeof(float));
+	az = (float*)malloc(arrSize * sizeof(float));
+	float aVal = randFloat();
 
-	//Loop: 2^20
-	int i = 0, j=0, n = 30;
+	//Generate Values
+	randFloats(arrSize, x);
+	randFloats(arrSize, y);
+
+	//Test Loop
+	int i = 0, j = 0, n = 30;
 	for (i = 0; i < n; i++) {
-		printf("Test #%d: ", i+1);
-		run(E20);
+		printf("Test #%d: ", i + 1);
+		run(arrSize, aVal);
 	}
 	double cAveTime = cTime / n;
 	double aAveTime = aTime / n;
@@ -140,6 +134,12 @@ int main() {
 	printf("| C                 | %-14.8lf|\n", cAveTime);
 	printf("| Assembly          | %-14.8lf|\n", aAveTime);
 	printf("+-------------------+---------------+\n\n\n\n");
+
+	//Clear Arrays
+	free(x);
+	free(y);
+	free(cz);
+	free(az);
 
 	return 0;
 }
