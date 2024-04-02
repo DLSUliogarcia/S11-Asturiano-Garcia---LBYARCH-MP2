@@ -10,7 +10,6 @@
 #define E27 134217728
 #define E28 268435456
 #define E29 536870912
-#define E30 1073741824
 
 double cTime = 0;
 double aTime = 0;
