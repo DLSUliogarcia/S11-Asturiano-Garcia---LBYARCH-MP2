@@ -10,6 +10,14 @@
 #define E28 268435456
 #define E30 1073741824
 
+double cTime = 0;
+double aTime = 0;
+
+float* x;
+float* y;
+float* cz;
+float* az;
+
 float randFloat() {
 	return ((float)(rand() - rand())) / ((float)(rand() + rand()));
 }
@@ -35,45 +43,36 @@ void initDoubleArray(int n,double* arr) {
 	}
 }
 
-void cSaxpy(int n, float a, float* x, float* y, float* z) {
+void cSaxpy(int n, float a, float* X, float* Y, float* Z) {
 	int i;
 	for (i = 0; i < n; i++) {
-		z[i] = a * x[i] + y[i];
+		Z[i] = a * X[i] + Y[i];
 	}
 }
 
 extern void aSaxpy(float a, float* Z, float* X, float* Y, int n);
 
-void checkEqual(long unsigned int n, float* x, float* y, float* c, float* a) {
+void checkEqual(long unsigned int n) {
 	long unsigned int i;
 	long unsigned int ctr = 0;
 	printf("|-------X Vector--------|--------Y Vector-------|----C SAXPY Results----|----ASM SAXPY Results----|\n");
 	printf("|-----------------------|-----------------------|-----------------------|-------------------------|\n");
 	for (i = 0; i < n; i++) {
-		if (c[i] != a[i]) ctr++;
-		if (i < 10) printf("| \t%f\t|\t%f\t|\t%f\t|\t%f\t  |\n", x[i], y[i], c[i], a[i]);
+		if (cz[i] != az[i]) ctr++;
+		if (i < 10) printf("| \t%f\t|\t%f\t|\t%f\t|\t%f\t  |\n", x[i], y[i], cz[i], az[i]);
 	}
 	printf("---------------------------------------------------------------------------------------------------\n");
 	printf("Total Mismatch: %d", ctr);
 }
 
-double getAveTime(int n, double* arr) {
-	int i;
-	double sum = 0;
-	for (i = 0; i < n; i++) {
-		sum += arr[i];
-	}
-	return sum / n;
-}
-
-void run(int arrSize, double *aTime, double *cTime) {
+void run(int arrSize) {
 	printf("Generating arrays of size %d...\n", arrSize);
 
-	//Declare Variables
-	float* x = (float*)malloc(arrSize * sizeof(float));
-	float* y = (float*)malloc(arrSize * sizeof(float));
-	float* cz = (float*)malloc(arrSize * sizeof(float));
-	float* az = (float*)malloc(arrSize * sizeof(float));
+	//Define Arrays
+	x = (float*)malloc(arrSize * sizeof(float));
+	y = (float*)malloc(arrSize * sizeof(float));
+	cz = (float*)malloc(arrSize * sizeof(float));
+	az = (float*)malloc(arrSize * sizeof(float));
 	float aVal = randFloat();
 
 	clock_t start_timeC, start_timeA, end_timeC, end_timeA;
@@ -96,12 +95,12 @@ void run(int arrSize, double *aTime, double *cTime) {
 	timeA = ((double)(end_timeA - start_timeA)) / CLOCKS_PER_SEC;
 
 	//Store Times
-	*cTime = (*cTime) + timeC;
-	*aTime = (*aTime) + timeA;
+	cTime += timeC;
+	aTime += timeA;
 
 	//Print Results
 	printf("A =  %f \n", aVal);
-	checkEqual(arrSize, x, y, cz, az);
+	checkEqual(arrSize);
 
 	printf("\n\nTime Results:\n");
 	printf("+-------------------+---------------+\n");
@@ -122,17 +121,17 @@ int main() {
 	srand(time(0));
 
 	//Time Arrays
-	double cSaxpyTimes = 0;
-	double aSaxpyTimes = 0;
+	//double aSaxpyTimes = 0;
+	//double cSaxpyTimes = 0;
 
 	//Loop: 2^20
 	int i = 0, j=0, n = 30;
 	for (i = 0; i < n; i++) {
-		printf("Test #%d\n", i+1);
-		run(E20, &aSaxpyTimes, &cSaxpyTimes);
+		printf("Test #%d: ", i+1);
+		run(E20);
 	}
-	double cAveTime = cSaxpyTimes / n;
-	double aAveTime = aSaxpyTimes / n;
+	double cAveTime = cTime / n;
+	double aAveTime = aTime / n;
 
 	//Print Results
 	printf("+-------------------+---------------+\n");
