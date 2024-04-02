@@ -100,7 +100,7 @@ void run(int arrSize, double *timesA, double *timesC, int index) {
 	timesA[index] = timeA;
 
 	//Print Results
-	printf("Test %d, N = %d, A = %f \n", index, arrSize, aVal);
+	printf("Test #%d: A = %f \n", index, aVal);
 	checkEqual(arrSize, x, y, cz, az);
 
 	printf("\n\nTime Results:\n");
