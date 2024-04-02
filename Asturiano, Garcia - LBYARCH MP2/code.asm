@@ -1,36 +1,37 @@
-section .data
-
 section .text
-	bits 64
-	Default rel
-	global aSaxpy
+bits 64
+Default rel
+global aSaxpy
 
 aSaxpy:
-	xorps xmm0, xmm0	; A
-	xorps xmm1, xmm1	; [X]
-	xorps xmm2, xmm2	; [Y]
-	
+	push rsi
 	push rbp
 	mov rbp, rsp
-	add rbp, 16				; Push rbp (+8) and Return Address of Call (+8)
-	movss xmm0, [rbp+32]		; 5th Parameter, +32 because of Shadow RAM
-
+	add rbp, 16
+	add rbp, 8
+	mov r11d, [rbp+32]
+	
+	;xmm0 stores a
+	;[rdx] stores Z
+	;[r8] stores X
+	;[r9] stores Y
+	;r11d stores n
+	
+	;init loop counter r12d
+	mov r12d, 0
 	l1:
-		movss xmm1, [r8]	; Current X
-		movss xmm2, [r9]	; Current Y
 
-		mulss xmm1, xmm0			; A*X[i]
-		addss xmm2, xmm1			; A*X[i] + Y[i]
-		movss dword [rdx], xmm2		; Z[i] = A*X[i] + Y[i]
+		movss xmm1, [r8]
+		vmulss xmm1, xmm0, [r8 + r12*4]
+		vaddss xmm3, xmm1,	[r9 + r12*4]
+		movss [rdx + r12*4], xmm3
 
-		; Increment Pointers
-		add r8, 4
-		add r9, 4
-		add rdx, 4
+		inc r12
 
-		; Repeat Until RCX = 0
-		dec ecx
-		jne l1
+		cmp r12, r11
+		jl l1
+
 
 	pop rbp
+	pop rsi
 	ret
